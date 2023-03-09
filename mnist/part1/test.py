@@ -120,6 +120,8 @@ def check_closed_form():
 
     log(green("PASS"), ex_name, "")
 
+check_closed_form()
+
 def check_svm():
     ex_name = "One vs rest SVM"
     n, m, d = 5, 3, 7

@@ -3,6 +3,13 @@ import numpy as np
 ### Functions for you to fill in ###
 
 def closed_form(X, Y, lambda_factor):
+    # Calculate XTX et XTY
+    XTX = np.dot(X.T, X)
+    XTY = np.dot(X.T, Y)
+
+    dim = len(XTX)
+    theta = np.dot(np.linalg.inv(XTX + lambda_factor * np.identity(dim)), XTY)
+    return theta
     """
     Computes the closed form solution of linear regression with L2 regularization
 
