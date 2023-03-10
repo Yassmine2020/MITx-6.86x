@@ -20,12 +20,21 @@ def augment_feature_vector(X):
     return np.hstack((column_of_ones, X))
 
 def compute_probabilities(X, theta, temp_parameter):
-    dim = len(theta[0])
-    c = np.max([theta[j]*X/temp_parameter for j in range(dim)])
-    exp_vals = [np.exp(theta[j]*X/ temp_parameter - c) for j in range(dim)]
-    exp_vect = np.array(exp_vals)
-    proba = exp_vect / sum(exp_vals)
-    return proba
+    n = X.shape[0]
+    k = theta.shape[0]
+    H = np.zeros((k,n))
+    tau = temp_parameter
+    for i in range(n):
+        Cte, P = 0, []
+        for j in range(k):
+            P += [np.matmul(theta[j],X[i])/tau]
+        C = max(P)
+        for j in range(k):
+            Cte += np.exp(np.matmul(theta[j],X[i])/tau-C)
+        for j in range(k):
+            H[j][i] = np.exp(np.matmul(theta[j],X[i])/tau-C)/Cte
+    return H
+
     """
     Computes, for each datapoint X[i], the probability that X[i] is labeled as j
     for j = 0, 1, ..., k-1
